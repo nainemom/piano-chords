@@ -161,12 +161,14 @@ const chords = chordsWithNamesLegacy
 
 console.log(JSON.stringify(chords));
 
-console.log(
-    Object.fromEntries(
-        octaveOrder.map((note) => {
-            return [`${note}1`, `${note}2`, `${note}3`];
-        })
-        .flat()
-        .map(note => [note, `./assets/${note}.mp3`])
-    )
-)
+
+let sampleFiles = ``;
+let sampleFilesExportList = [];
+octaveOrder.forEach((noteWithoutOctave) => {
+  [`${noteWithoutOctave}1`, `${noteWithoutOctave}2`, `${noteWithoutOctave}3`].forEach((note) => {
+    sampleFiles += `import ${note} from './${note}.mp3?inline';\n`;
+    sampleFilesExportList.push(note);
+  });
+});
+
+console.log(sampleFiles + '\n' + `export default { ${sampleFilesExportList.join(', ') } };`)

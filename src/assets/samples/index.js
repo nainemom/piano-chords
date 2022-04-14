@@ -1,38 +1,38 @@
-export default {
-    C1: new URL('./C1.mp3', import.meta.url).href,
-    C2: new URL('./C2.mp3', import.meta.url).href,
-    C3: new URL('./C3.mp3', import.meta.url).href,
-    Db1: new URL('./Db1.mp3', import.meta.url).href,
-    Db2: new URL('./Db2.mp3', import.meta.url).href,
-    Db3: new URL('./Db3.mp3', import.meta.url).href,
-    D1: new URL('./D1.mp3', import.meta.url).href,
-    D2: new URL('./D2.mp3', import.meta.url).href,
-    D3: new URL('./D3.mp3', import.meta.url).href,
-    Eb1: new URL('./Eb1.mp3', import.meta.url).href,
-    Eb2: new URL('./Eb2.mp3', import.meta.url).href,
-    Eb3: new URL('./Eb3.mp3', import.meta.url).href,
-    E1: new URL('./E1.mp3', import.meta.url).href,
-    E2: new URL('./E2.mp3', import.meta.url).href,
-    E3: new URL('./E3.mp3', import.meta.url).href,
-    F1: new URL('./F1.mp3', import.meta.url).href,
-    F2: new URL('./F2.mp3', import.meta.url).href,
-    F3: new URL('./F3.mp3', import.meta.url).href,
-    Gb1: new URL('./Gb1.mp3', import.meta.url).href,
-    Gb2: new URL('./Gb2.mp3', import.meta.url).href,
-    Gb3: new URL('./Gb3.mp3', import.meta.url).href,
-    G1: new URL('./G1.mp3', import.meta.url).href,
-    G2: new URL('./G2.mp3', import.meta.url).href,
-    G3: new URL('./G3.mp3', import.meta.url).href,
-    Ab1: new URL('./Ab1.mp3', import.meta.url).href,
-    Ab2: new URL('./Ab2.mp3', import.meta.url).href,
-    Ab3: new URL('./Ab3.mp3', import.meta.url).href,
-    A1: new URL('./A1.mp3', import.meta.url).href,
-    A2: new URL('./A2.mp3', import.meta.url).href,
-    A3: new URL('./A3.mp3', import.meta.url).href,
-    Bb1: new URL('./Bb1.mp3', import.meta.url).href,
-    Bb2: new URL('./Bb2.mp3', import.meta.url).href,
-    Bb3: new URL('./Bb3.mp3', import.meta.url).href,
-    B1: new URL('./B1.mp3', import.meta.url).href,
-    B2: new URL('./B2.mp3', import.meta.url).href,
-    B3: new URL('./B3.mp3', import.meta.url).href,
-}
+import C1 from './C1.mp3?inline';
+import C2 from './C2.mp3?inline';
+import C3 from './C3.mp3?inline';
+import Db1 from './Db1.mp3?inline';
+import Db2 from './Db2.mp3?inline';
+import Db3 from './Db3.mp3?inline';
+import D1 from './D1.mp3?inline';
+import D2 from './D2.mp3?inline';
+import D3 from './D3.mp3?inline';
+import Eb1 from './Eb1.mp3?inline';
+import Eb2 from './Eb2.mp3?inline';
+import Eb3 from './Eb3.mp3?inline';
+import E1 from './E1.mp3?inline';
+import E2 from './E2.mp3?inline';
+import E3 from './E3.mp3?inline';
+import F1 from './F1.mp3?inline';
+import F2 from './F2.mp3?inline';
+import F3 from './F3.mp3?inline';
+import Gb1 from './Gb1.mp3?inline';
+import Gb2 from './Gb2.mp3?inline';
+import Gb3 from './Gb3.mp3?inline';
+import G1 from './G1.mp3?inline';
+import G2 from './G2.mp3?inline';
+import G3 from './G3.mp3?inline';
+import Ab1 from './Ab1.mp3?inline';
+import Ab2 from './Ab2.mp3?inline';
+import Ab3 from './Ab3.mp3?inline';
+import A1 from './A1.mp3?inline';
+import A2 from './A2.mp3?inline';
+import A3 from './A3.mp3?inline';
+import Bb1 from './Bb1.mp3?inline';
+import Bb2 from './Bb2.mp3?inline';
+import Bb3 from './Bb3.mp3?inline';
+import B1 from './B1.mp3?inline';
+import B2 from './B2.mp3?inline';
+import B3 from './B3.mp3?inline';
+
+export default { C1, C2, C3, Db1, Db2, Db3, D1, D2, D3, Eb1, Eb2, Eb3, E1, E2, E3, F1, F2, F3, Gb1, Gb2, Gb3, G1, G2, G3, Ab1, Ab2, Ab3, A1, A2, A3, Bb1, Bb2, Bb3, B1, B2, B3 };
