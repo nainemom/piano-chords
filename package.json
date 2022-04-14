@@ -6,7 +6,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "build:github": "vite build --base='/piano-chords/'",
-    "deploy:github": "gh-pages -e ./dist",
+    "deploy:github": "gh-pages -d ./dist",
     "deploy": "npm-run-all -s build:github deploy:github"
   },
   "dependencies": {
