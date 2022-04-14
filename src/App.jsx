@@ -4,10 +4,8 @@ import notePlayer from '@/utils/notePlayer';
 import ChordButtons from '@/components/ChordButtons/index.jsx';
 
 export default () => {
-  const [playingChord, setPlayingChord] = useState(null);
 
-  const playChord = ({ name, notes }) => {
-    setPlayingChord(name);
+  const playChord = ({ notes }) => {
     notePlayer(notes);
   };
 
@@ -16,7 +14,6 @@ export default () => {
       <ChordButtons 
         listenGlobalKeys={ true }
         onPlay={ playChord }
-        playingChord={ playingChord }
       />
     </div>
   )
