@@ -13,6 +13,9 @@ export default defineConfig({
         replacement: path.resolve(__dirname, './src'),
       },
     ],
-  }
+  },
+  build: {
+    assetsInlineLimit: '102400' // 100kb
+  },
 });
 
