@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import './App.css';
 import notePlayer from '@/utils/notePlayer';
 import ChordButtons from '@/components/ChordButtons/index.jsx';
