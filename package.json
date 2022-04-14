@@ -5,10 +5,13 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "deploy": "npm run build -- --base=/piano-chords/ && gh-pages -e ./dist"
+    "build:github": "vite build --base='/piano-chords/'",
+    "deploy:github": "gh-pages -e ./dist",
+    "deploy": "npm-run-all -s build:github deploy:github"
   },
   "dependencies": {
     "gh-pages": "^3.2.3",
+    "npm-run-all": "^4.1.5",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "tone": "^14.8.38"
