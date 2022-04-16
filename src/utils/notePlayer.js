@@ -9,5 +9,8 @@ const allNotes = Object.fromEntries(
 
 export default (notes) => {
   Object.keys(allNotes).forEach((note) => allNotes[note].stop());
-  notes.forEach((note) => allNotes[note].play());
+  for(const note of notes) {
+    allNotes[note].play();
+    // await new Promise(resolve => setTimeout(resolve, 0));
+  }
 }
