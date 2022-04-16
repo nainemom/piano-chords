@@ -1,7 +1,9 @@
 import { useEffect, useRef } from 'react'
 import './index.css'
-import chords from '@/assets/chords';
+import chords from '@/assets/chords.json';
 import useAutoResetableState from '@/utils/useAutoResetableState';
+import map from '@/utils/map';
+
 
 export default ({
   onPlay = () => {},
@@ -9,15 +11,15 @@ export default ({
 }) => {
   const [playingChord, setPlayingChord] = useAutoResetableState(-1, 1);
 
-  const playChord = (chordIndex, octaveIndex) => {
+  const playChord = (chordIndex) => {
     onPlay({
       name: chords[chordIndex][0],
-      notes: chords[chordIndex][1][octaveIndex],
+      notes: chords[chordIndex][1],
     });
     setPlayingChord(chordIndex);
   };
 
-  const sideKeyToSectionIndexMap = [
+  const sideKeyToSectionIndexMap = map([
     ['', 0],
     ['shift', 1],
     ['ctrl', 2],
@@ -25,24 +27,24 @@ export default ({
     ['shift ctrl', 4],
     ['shift alt', 5],
     ['ctrl alt', 6],
-  ];
+  ]);
 
-  const keyCodeToNoteIndexMap = [
-    [[49, 81], 0],
-    [[50, 87], 1],
-    [[51, 69], 2],
-    [[52, 82], 3],
-    [[53, 84], 4],
-    [[54, 89], 5],
-    [[55, 85], 6],
-    [[56, 73], 7],
-    [[57, 79], 8],
-    [[48, 80], 9],
-    [[189, 219], 10],
-    [[187, 221], 11],
-  ];
+  const keyCodeToNoteIndexMap = map([
+    [49, 0],
+    [50, 1],
+    [51, 2],
+    [52, 3],
+    [53, 4],
+    [54, 5],
+    [55, 6],
+    [56, 7],
+    [57, 8],
+    [48, 9],
+    [189, 10],
+    [187, 11],
+  ]);
 
-  const keyCodeToKeyNameMap = [
+  const keyCodeToKeyNameMap = map([
     [49, '1'],
     [81, 'q'],
     [50, '2'],
@@ -67,65 +69,55 @@ export default ({
     [219, '['],
     [187, '+'], 
     [221, ']'], 
-  ];
+  ]);
 
   const Shortcuts = ({ chordIndex }) => {
     const sectionIndex = Math.floor(chordIndex / 12);
     const noteIndex = chordIndex - (sectionIndex * 12);
 
-    const sideKeys = sideKeyToSectionIndexMap.find(([, val]) => val === sectionIndex)[0].split(' ');
-    const keyCodes = keyCodeToNoteIndexMap.find(([,val]) => val === noteIndex)[0];
-    const keyNames = keyCodeToKeyNameMap.filter(([val]) => keyCodes.includes(val)).map((x) => x[1]);
+    const sideKeys = sideKeyToSectionIndexMap.get(sectionIndex, true).split(' ');
+    const keyCode = keyCodeToNoteIndexMap.get(noteIndex, true);
+    const keyName = keyCodeToKeyNameMap.get(keyCode);
+    
 
-    const shortcuts = keyNames.map((x) => [...sideKeys.filter(y => !!y), x]);
+    const shortcuts = [...sideKeys.filter(y => !!y), keyName];
 
     const Keys = ({ keys }) => (
       <div>
-        <span className="ChordButtonShortcut__keys"> {keys.map((key) => (
-          <span className="ChordButtonShortcut__key" key={key}>{key}</span>
-        ))} </span>
+        <span className="ChordButtonShortcut__keys">
+          {keys.map((key) => (
+            <span className="ChordButtonShortcut__key" key={key}>{key}</span>
+          ))}
+        </span>
       </div>
     );
 
     return (
       <div className="ChordButtonShortcut">
-        {
-          shortcuts.map((keys) => (
-            <Keys key={keys} keys={keys} />
-          ))
-        }
+        <Keys keys={shortcuts} />
       </div>
     );
   }
 
   const handleKeyDown = (event) => {
     const { keyCode, shiftKey, ctrlKey, altKey } = event;
-    if (!keyCodeToNoteIndexMap.find(([val]) => val.includes(keyCode))) return;
+    if (!keyCodeToNoteIndexMap.has(keyCode)) return;
     event.preventDefault();
 
     const sideKey = [shiftKey ? 'shift' : false, ctrlKey ? 'ctrl' : false, altKey ? 'alt' : false].filter(x => !!x).join(' ');
-
-    const sectionIndex = sideKeyToSectionIndexMap.find(([val]) => val === sideKey)[1];
     
-    const noteIndexMapped = keyCodeToNoteIndexMap.find(([val]) => val.includes(keyCode));
-
-    const noteIndex = noteIndexMapped[1];
-
-    const octaveIndex = noteIndexMapped[0].indexOf(keyCode);
-
+    const sectionIndex = sideKeyToSectionIndexMap.get(sideKey);
+    
+    const noteIndex = keyCodeToNoteIndexMap.get(keyCode);
+    
     const chordIndex = (sectionIndex * 12) + noteIndex;
-    
-    playChord(chordIndex, octaveIndex);
-
+  
+    playChord(chordIndex);
   };
 
   const handleClick = (event, chordIndex) => {
     event.preventDefault();
-    let chordOctave = 0;
-    if (event.button !== 0) {
-      chordOctave = 1;
-    }
-    playChord(chordIndex, chordOctave);
+    playChord(chordIndex);
   };
 
   const removeKeyDownListener = () => {
@@ -150,14 +142,14 @@ export default ({
   const buttonsRef = useRef(null);
   useEffect(() => {
     try {
-      if (playingChord) {
+      if (playingChord !== -1) {
         const el = buttonsRef.current.querySelector(`[data-index="${playingChord}"]`);
         if (el) {
           requestAnimationFrame(() => {
             el.removeAttribute('data-playing');
-            requestAnimationFrame(() => {
+            setTimeout(() => {
               el.setAttribute('data-playing', 'true');
-            });
+            }, 10);
           });
         }
       }
@@ -165,7 +157,7 @@ export default ({
   }, [playingChord]);
 
   return (
-    <div className="ChordButtons" ref={buttonsRef} onContextMenu={ (e) => e.preventDefault() }>
+    <div className="ChordButtons" ref={buttonsRef}>
       { chords.map(([name], i) => (
         <button className="ChordButton" data-index={i} key={i} onPointerDown={(event) => handleClick(event, i)}>
           <div className="ChordButton__name">{name}</div>

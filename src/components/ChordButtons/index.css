@@ -46,7 +46,7 @@
 }
 
 .ChordButtonShortcut__keys > *:not(:last-child)::after {
-  content: ' + ';
+  content: ' ';
   display: inline-block;
   margin: 0 0.25rem;
   color: lightgray;
