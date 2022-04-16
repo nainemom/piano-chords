@@ -129,34 +129,27 @@ const chords = chordsWithNamesLegacy
         return [name, correctChord];
     })
     .map(([name, chordNoOctave]) => {
-        // let startFrom = 2;
-        // let currentNoteIndex = 0;
-        // chordNoOctave.forEach((note) => {
-        //     const noteIndex = octaveOrder.indexOf(note);
-        //     if (noteIndex < currentNoteIndex) {
-        //         startFrom = 1;
-        //     }
-        //     currentNoteIndex = noteIndex;
-        // });
-
-        //
-        startFrom = 1;
-        //
-
-        const chordOctaves = [1, 2].map((startFrom) => {
-          let currentNoteIndex = 0;
-          let startFromValue = startFrom;
-          return chordNoOctave.map((note) => {
-              const noteIndex = octaveOrder.indexOf(note);
-              if (noteIndex < currentNoteIndex) {
-                startFromValue+=1;
-              }
-              currentNoteIndex = noteIndex;
-              return `${note}${startFromValue}`;
-          });
+        let startFrom = 2;
+        let currentNoteIndex = 0;
+        chordNoOctave.forEach((note) => {
+            const noteIndex = octaveOrder.indexOf(note);
+            if (noteIndex < currentNoteIndex) {
+                startFrom = 1;
+            }
+            currentNoteIndex = noteIndex;
         });
 
-        return [name, chordOctaves];
+        currentNoteIndex = 0;
+        const chord = chordNoOctave.map((note) => {
+            const noteIndex = octaveOrder.indexOf(note);
+            if (noteIndex < currentNoteIndex) {
+              startFrom+=1;
+            }
+            currentNoteIndex = noteIndex;
+            return `${note}${startFrom}`;
+        });
+
+        return [name, chord];
     })
 
 console.log(JSON.stringify(chords));
@@ -165,7 +158,7 @@ console.log(JSON.stringify(chords));
 let sampleFiles = ``;
 let sampleFilesExportList = [];
 octaveOrder.forEach((noteWithoutOctave) => {
-  [`${noteWithoutOctave}1`, `${noteWithoutOctave}2`, `${noteWithoutOctave}3`].forEach((note) => {
+  [`${noteWithoutOctave}1`, `${noteWithoutOctave}2`].forEach((note) => {
     sampleFiles += `import ${note} from './${note}.mp3?inline';\n`;
     sampleFilesExportList.push(note);
   });
